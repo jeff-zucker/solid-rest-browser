@@ -19,8 +19,6 @@ const LDP = $rdf.Namespace("http://www.w3.org/ns/ldp#");
 async function run(){
     let results;
 
-    localStorage.clear();
-
     /* CREATE AN IN-BROWSER CONTAINER
     */
     results = await appfetch( docRoot,{
