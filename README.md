@@ -2,7 +2,9 @@
 
 ## treat a browser's localStorage as a mini Solid server
 
-This library supports the use of the app:// scheme to create and access resources and containers stored in a browser's localStorage (and eventually indexedDB and other kinds of storage).  It supports rdflib's fetcher methods which means that resources in the app:// space may be addressed pretty much the same as in https;// space. 
+This library supports the use of the app:// scheme to create and access resources and containers stored in a browser's localStorage (and eventually indexedDB and other kinds of storage).  It supports rdflib's fetcher methods which means that using rdflib, resources in the app:// space may be addressed pretty much the same as in https:// or file:// space.   
+
+It should work in all modern browsers, I've had success reported on firefox on linux, and chrome on android, iphone, and linux.
 
 See **[a live demo](https://jeff-zucker.github.io/solid-rest-browser/)**.
 
@@ -20,7 +22,7 @@ Since each origin gets its own localStorage, Solid apps can read and write to th
 
 The root Container of an app's localStorage is:
 
-   app://ls/
+     app://ls/
 
 In the actual storage, the app origin will be pre-pended but the app can't see that part.
 
