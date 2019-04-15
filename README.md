@@ -18,11 +18,15 @@ This is not carved in stone, but how I currently handle IRIs:
            "id" for indexedDB (not yet implemented)
            ... possible others
 
+    path = levels of sub-containers starting at /
+
 Since each origin gets its own localStorage, Solid apps can read and write to their own storage.  It is also possible to sync between the apps's local storage and the user's pod with standard Solid methods.  
 
 The root Container of an app's localStorage is:
 
      app://ls/
+
+**Important** : Container names must always end in slash.
 
 In the actual storage, the app origin will be pre-pended but the app can't see that part.
 
