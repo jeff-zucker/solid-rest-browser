@@ -2,7 +2,8 @@
   <script src="https://cdn.jsdelivr.net/npm/rdflib@0.20.1/dist/rdflib.min.js">
   </script>
   <script src="./src/index.js"></script>
-</head><body><div id="results"></div>
+</head><body>
+    <p><b>Testing Local Storage via rdflib.js</b></p><div id="results"></div>
 <script>
 let store   = $rdf.graph()                 
 let fetcher = $rdf.fetcher(store,{fetch:appfetch})
@@ -76,6 +77,8 @@ async function run(){
     else
         show(`Deleted Local Storage Resource & Container`);
         show(`Local Storage for this app is now empty`);
+
+    show("---\nAll done, thanks!");
 
     for(let key in localStorage){
         if(key.match(/^app:\/\/\//)) {
