@@ -20,11 +20,13 @@ This is not carved in stone, but how I currently handle IRIs:
 
     path = levels of sub-containers starting at /
 
-Since each origin gets its own localStorage, Solid apps can read and write to their own storage.  It is also possible to sync between the apps's local storage and the user's pod with standard Solid methods.  
+Since each origin gets its own localStorage, Solid apps can read and write to their own storage.  It is also possible to sync between the app's local storage and the user's pod with standard Solid methods.  
 
-The root Container of an app's localStorage is:
+The root container of an app's localStorage is:
 
      app://ls/
+
+There may be an arbitary number of levels of containers nested under the root.  These are not actual folders, but they should behave the way we expect a Solid container to behave.  If they don't please file an issue.
 
 **Important** : Container names must always end in slash.
 
