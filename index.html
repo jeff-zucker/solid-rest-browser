@@ -5,7 +5,7 @@
 </head><body><div id="results"></div>
 <script>
 let store   = $rdf.graph()                 
-let fetcher = $rdf.fetcher(store,{fetch:fetch})
+let fetcher = $rdf.fetcher(store,{fetch:appfetch})
 
 let docRoot     = "app:///";
 let foldername  = "test-folder/";
@@ -22,7 +22,7 @@ async function run(){
 
     /* CREATE AN IN-BROWSER CONTAINER
     */
-    results = await fetch( docRoot,{
+    results = await appfetch( docRoot,{
          method : "POST",
          headers: { 
              Slug: foldername,
@@ -64,8 +64,8 @@ async function run(){
 
     /* DELETE AN IN-BROWSER RESOURCE & CONTAINER
     */
-    await fetch( DOC("").uri,{Method:"DELETE"} );
-    await fetch( folder,{Method:"DELETE"} );
+    await appfetch( DOC("").uri,{Method:"DELETE"} );
+    await appfetch( folder,{Method:"DELETE"} );
     clearStore();
     await fetcher.load( docRoot );
     files = store.each( $rdf.sym(folder), LDP("contains"));
@@ -87,7 +87,7 @@ async function run(){
 run();
 function clearStore(){
     store = $rdf.graph();
-    fetcher = $rdf.fetcher(store,{fetch:fetch});
+    fetcher = $rdf.fetcher(store,{fetch:appfetch});
 }
 function show(msg){
     let par = document.createElement('p')

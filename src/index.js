@@ -24,7 +24,7 @@ function response (status, body, headers) {
 /*
   REQUEST HANDLER
 */
-async function fetch (iri, options) {
+async function appfetch (iri, options) {
   options = options || {}
   options.method = (options.method || options.Method || 'GET').toUpperCase()
 
@@ -215,6 +215,3 @@ function _getContainer(pathname){
     });
 }
 
-// fetch.Headers = Headers
-
-// module.exports = fetch
