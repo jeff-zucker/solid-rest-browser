@@ -1,0 +1,20 @@
+{
+  "name": "solid-rest-browser",
+  "version": "0.0.1",
+  "description": "## treat a browser's localStorage as a mini Solid server",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jeff-zucker/solid-rest-browser.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jeff-zucker/solid-rest-browser/issues"
+  },
+  "homepage": "https://github.com/jeff-zucker/solid-rest-browser#readme"
+}
