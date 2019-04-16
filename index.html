@@ -21,8 +21,7 @@ async function run(){
 
     /* CREATE AN IN-BROWSER CONTAINER
     */
-    results = await appfetch( docRoot,{
-         method : "POST",
+    results = await fetcher.webOperation( "POST",docRoot,{
          headers: { 
              Slug: foldername,
             "Content-type":"text/turtle",
@@ -63,8 +62,8 @@ async function run(){
 
     /* DELETE AN IN-BROWSER RESOURCE & CONTAINER
     */
-    await appfetch( DOC("").uri,{Method:"DELETE"} );
-    await appfetch( folder,{Method:"DELETE"} );
+    await fetcher.webOperation( "DELETE",DOC("") );
+    await fetcher.webOperation( "DELETE",folder );
     clearStore();
     await fetcher.load( docRoot );
     files = store.each( $rdf.sym(folder), LDP("contains"));

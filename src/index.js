@@ -76,11 +76,7 @@ async function appfetch (iri, options) {
           return Promise.resolve(response(404))
       }
       else {
-          return new Promise((resolve) => {
-              _deleteResource(pathname).then( statusCode => { 
-                  return resolve( response(statusCode) )
-              })
-          });
+              return await _deleteResource(pathname)
       }
   }
   else if (options.method === 'PUT' || options.method === "POST-RESOURCE" ) {
