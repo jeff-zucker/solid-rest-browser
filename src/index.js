@@ -1,7 +1,7 @@
 /*
   RESPONSE HANDLERS
 */
-const statusText = {
+const _statusText = {
     200 : "Ok",
     201 : "Created",
     404 : "Not Found",
@@ -9,11 +9,11 @@ const statusText = {
     409 : "Conflict",
     500 : "Internal Server Error"
 }
-function response (status, body, headers) {
+function _response (status, body, headers) {
   return {
     status: status,
     ok: status >= 200 && status <= 299,
-    statusText: statusText[status],
+    statusText: _statusText[status],
     headers: new Headers(headers),
     body: body,
     text: text.bind(null, body),
@@ -34,11 +34,11 @@ async function appfetch (iri, options) {
 
   if(!pathname.match(/^app:\/\/ls/)){
       console.log("Malformed IRI : does not begin with app://ls");
-      return Promise.resolve( response(500) );
+      return Promise.resolve( _response(500) );
   }
   if(!pathname.match(/^app:\/\/ls\//)){
       console.log("Malformed IRI : path does not begin with /");
-      return Promise.resolve( response(500) );
+      return Promise.resolve( _response(500) );
   }
 
   const objectType = await _getObjectType(pathname);
@@ -50,13 +50,13 @@ async function appfetch (iri, options) {
       return await _deleteResource(pathname) ;
   }
   if( options.method==="POST"){
-      if( objectType==="notFound" ) return Promise.resolve(response(404));
+      if( objectType==="notFound" ) return Promise.resolve(_response(404));
       pathname = pathname + options.headers.Slug;
 
       return await _putResource(pathname) ;
 /*
       if( options.headers.Link && options.headers.Link.match("Container") ) {
-          return Promise.resolve( response( await postContainer(pathname) ) );
+          return Promise.resolve( _response( await postContainer(pathname) ) );
       }
       else if(options.headers.Link && options.headers.Link.match("Resource")){
           options.method = "POST-RESOURCE"
@@ -65,7 +65,7 @@ async function appfetch (iri, options) {
   }
   if (options.method === 'GET') {
       if( objectType==="notFound" ) {
-          return Promise.resolve(response(404,""))
+          return Promise.resolve(_response(404,""))
       }
       else {
           return await _getResource(pathname,options);
@@ -73,7 +73,7 @@ async function appfetch (iri, options) {
   }
   else if (options.method === 'DELETE' ) {
       if( objectType==="notFound" ) {
-          return Promise.resolve(response(404))
+          return Promise.resolve(_response(404))
       }
       else {
               return await _deleteResource(pathname)
@@ -86,7 +86,7 @@ async function appfetch (iri, options) {
       return await _putResource( pathname, options ); /* PUT RESOURCE */
   }
   else {
-      return Promise.resolve( response(405) )   /* UNKNOWN METHOD */
+      return Promise.resolve( _response(405) )   /* UNKNOWN METHOD */
   }
 }
 
@@ -116,13 +116,13 @@ async function _getObjectType(fn){
 async function _getResource(pathname,options){
         try { 
             let body = localStorage.getItem( pathname );
-            return Promise.resolve( response(
+            return Promise.resolve( _response(
                 200,
                 body,
                 {"Content-Type":"text/turtle"},
             ))
         }
-        catch(e){ Promise.resolve( response(500) ) }
+        catch(e){ Promise.resolve( _response(500) ) }
 }
 function _putResource(pathname,options){
     options = options || {};
@@ -130,19 +130,19 @@ function _putResource(pathname,options){
     return new Promise((resolve) => {
         try { 
             localStorage.setItem( pathname, options.body );
-            resolve( response(201,undefined,{'location': pathname}) )
+            resolve( _response(201,undefined,{'location': pathname}) )
         }
-        catch(e){ console.log(e); resolve( response(500) ) }
+        catch(e){ console.log(e); resolve( _response(500) ) }
     })
 }
 function _deleteResource(fn){
     return new Promise(function(resolve) {
         try {
             localStorage.removeItem(fn);
-            resolve(response(200))
+            resolve(_response(200))
         }
         catch(e){
-            resolve( response(409) );
+            resolve( _response(409) );
         }    
     });
 }
@@ -150,41 +150,6 @@ function _deleteResource(fn){
 /* 
   CONTAINER HANDLERS
 */
-function _deleteContainer(fn){
-    return new Promise(function(resolve) {
-        fs.rmdir( fn, function(err) {
-            if(err) {
-                resolve( 409 );
-            } else {
-                resolve( 200 );
-            }
-        });
-    });
-}
-function postContainer(fn,recursive){
-    fn = fn.replace(/\/$/,'');
-    return new Promise(function(resolve) {
-        let opts = (recursive) ? {"recursive":true} : {}
-        fs.mkdir( fn, opts, (err) => {
-            if(err) {
-                resolve( 409 )
-            } 
-            else {
-                resolve( 201 );
-            }
-        });
-    });
-}
-async function _makeContainers(pathname){
-      let filename = path.basename(pathname);
-      let reg = new RegExp(filename+"\$")
-      let foldername = pathname.replace(reg,'');
-      let exists = await _getObjectType(foldername);
-      if(exists==="notFound"){
-          let fresults = await postContainer(foldername,"recursive");
-          if(!fresults===201) Promise.resolve( response(500) ); 
-       }
-}
 function _getContainer(pathname){
     let filenames = Object.keys(localStorage).filter( (k)=>{ 
         if(k.startsWith(pathname)){return k} 
@@ -204,7 +169,7 @@ function _getContainer(pathname){
                 str = str.replace(/,$/,"");
             }
             str = str+".";
-            return ( resolve(response(
+            return ( resolve(_response(
                 200,
                 str,
                 {'Content-Type':'text/turtle'}
@@ -212,4 +177,5 @@ function _getContainer(pathname){
 //        });
     });
 }
+
 
