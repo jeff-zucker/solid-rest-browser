@@ -25,6 +25,7 @@ function _response (status, body, headers) {
   REQUEST HANDLER
 */
 async function appfetch (iri, options) {
+
   options = options || {}
   options.method = (options.method || options.Method || 'GET').toUpperCase()
 

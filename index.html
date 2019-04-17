@@ -42,7 +42,7 @@ async function run(){
 
     /* LOAD AND QUERY AN IN-BROWSER CONTAINER
     */
-    clearStore();
+    store.removeMatches();
     await fetcher.load( folder );
     let files = store.each( $rdf.sym(folder), LDP("contains"));
     if(files.length!=1 && !files[0].value.match(file)) {
@@ -54,7 +54,7 @@ async function run(){
 
     /* LOAD AND QUERY AN IN-BROWSER RESOURCE 
     */
-    clearStore();
+    store.removeMatches();
     await fetcher.load( DOC("") );
     results = store.any( DOC("#test"), DOC("#message"), null );
     if(results)
@@ -62,9 +62,9 @@ async function run(){
 
     /* DELETE AN IN-BROWSER RESOURCE & CONTAINER
     */
-    await fetcher.webOperation( "DELETE",DOC("") );
-    await fetcher.webOperation( "DELETE",folder );
-    clearStore();
+    await fetcher.delete( DOC("") );
+    await fetcher.delete( folder );
+    store.removeMatches();
     await fetcher.load( docRoot );
     files = store.each( $rdf.sym(folder), LDP("contains"));
     if(files.length!=0) {
@@ -76,22 +76,20 @@ async function run(){
         show(`Local Storage for this app is now empty`);
 
     show("---\nAll done, thanks!");
-
-    for(let key in localStorage){
-        if(key.match(/^app:\/\/\//)) {
-            key = key.replace(/^app:\/\//,'');
-            show(key);
-        }
-    }
+    showAllStorage();
 }
 run();
-function clearStore(){
-    store = $rdf.graph();
-    fetcher = $rdf.fetcher(store,{fetch:appfetch});
-}
 function show(msg){
     let par = document.createElement('p')
     par.appendChild(document.createTextNode(msg));
     document.getElementById("results").appendChild(par);
+}
+function showAllStorage(){
+    for(let key in localStorage){
+        if(key.match(/^app:\/\//)) {
+            key = key.replace(/^app:\/\/ls\//,'');
+            show(key);
+        }
+    }
 }
 </script></body></html>
