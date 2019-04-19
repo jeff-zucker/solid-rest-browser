@@ -8,6 +8,9 @@
 let store   = $rdf.graph()                 
 let fetcher = $rdf.fetcher(store,{fetch:appfetch})
 
+let app = decodeURI( location.pathname );
+console.log(app);
+
 let docRoot     = "app://ls/";
 let foldername  = "test-folder/";
 let filename    = "test-file.ttl";
@@ -17,9 +20,10 @@ let DOC         = $rdf.Namespace(file);
 const LDP = $rdf.Namespace("http://www.w3.org/ns/ldp#");
 
 async function run(){
+    localStorage.clear();
     let results;
 
-    /* CREATE AN IN-BROWSER CONTAINER
+    /* CREATE A CONTAINER
     */
     results = await fetcher.webOperation( "POST",docRoot,{
          headers: { 
@@ -33,14 +37,14 @@ async function run(){
     else
         console.log(results);
 
-    /* CREATE AN IN-BROWSER RESOURCE 
+    /* CREATE A RESOURCE 
     */
     store.add( DOC("#test"), DOC("#message"), "hello world", DOC("") );
     results = await fetcher.putBack( DOC("") );
     if(results.status===201)
         show(`Created Local Storage Resource <${DOC("").uri}>`);    
 
-    /* LOAD AND QUERY AN IN-BROWSER CONTAINER
+    /* LOAD AND QUERY A CONTAINER
     */
     store.removeMatches();
     await fetcher.load( folder );
@@ -52,7 +56,7 @@ async function run(){
     else
        show(`Loaded & queried Local Storage Container : ${files.length} file`);
 
-    /* LOAD AND QUERY AN IN-BROWSER RESOURCE 
+    /* LOAD AND QUERY A RESOURCE 
     */
     store.removeMatches();
     await fetcher.load( DOC("") );
@@ -60,7 +64,7 @@ async function run(){
     if(results)
         show(`Loaded & queried Local Storage Resource : ${results.value}`);
 
-    /* DELETE AN IN-BROWSER RESOURCE & CONTAINER
+    /* DELETE A RESOURCE & CONTAINER
     */
     await fetcher.delete( DOC("") );
     await fetcher.delete( folder );
@@ -75,8 +79,8 @@ async function run(){
         show(`Deleted Local Storage Resource & Container`);
         show(`Local Storage for this app is now empty`);
 
-    show("---\nAll done, thanks!");
     showAllStorage();
+    show("---\nAll done, thanks!");
 }
 run();
 function show(msg){
@@ -86,7 +90,7 @@ function show(msg){
 }
 function showAllStorage(){
     for(let key in localStorage){
-        if(key.match(/^app:\/\//)) {
+        if(key.match(/^app:\/\//)){
             key = key.replace(/^app:\/\/ls\//,'');
             show(key);
         }
