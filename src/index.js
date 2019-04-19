@@ -32,13 +32,12 @@ async function appfetch (iri, options) {
   let pathname = decodeURIComponent(iri);
   let hostname = pathname.replace(/^app:\/\/\//,'').replace(/\/.*/,'');
 
-
   if(!pathname.match(/^app:\/\/ls/)){
-      console.log("Malformed IRI : does not begin with app://ls");
+      console.log("Malformed URL : does not begin with app://ls");
       return Promise.resolve( _response(500) );
   }
   if(!pathname.match(/^app:\/\/ls\//)){
-      console.log("Malformed IRI : path does not begin with /");
+      console.log("Malformed URL : path does not begin with /");
       return Promise.resolve( _response(500) );
   }
 

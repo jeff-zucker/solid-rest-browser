@@ -1,6 +1,6 @@
 {
   "name": "solid-rest-browser",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "## treat a browser's localStorage as a mini Solid server",
   "main": "src/index.js",
   "scripts": {
