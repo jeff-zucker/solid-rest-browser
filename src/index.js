@@ -183,15 +183,15 @@ function _getContainer(pathname){
 }
 
 
-  if( typeof exports !== 'undefined' ) {
-    if( typeof module !== 'undefined' && module.exports ) {
+  if( typeof exports != 'undefined' ) {
+    if( typeof module != 'undefined' && module.exports ) {
       exports = module.exports = appfetch
     }
-    exports.appfetch = appfetch
+    else exports.appfetch = appfetch
   } 
   else {
     root.appfetch = appfetch // creates window.appfetch
-    return root
+    return root  // consumed by requrie
   }
 
 }).call(this)
