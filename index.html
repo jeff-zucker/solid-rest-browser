@@ -17,22 +17,13 @@ let DOC         = $rdf.Namespace(file);
 const LDP = $rdf.Namespace("http://www.w3.org/ns/ldp#");
 
 async function run(){
-    localStorage.clear();
     let results;
 
     /* CREATE A CONTAINER
     */
-    results = await fetcher.webOperation( "POST",docRoot+"/",{
-         headers: { 
-             Slug: foldername,
-            "Content-type":"text/turtle",
-             Link: '<http://www.w3.org/ns/ldp#BasicContainer>; rel="type"'
-        }
-    });
+    results = await fetcher.createContainer( docRoot+"/",foldername )
     if(results.status===201)
         show(`Created Local Storage Container <${docRoot+foldername}>`);    
-    else
-        console.log(results);
 
     /* CREATE A RESOURCE 
     */

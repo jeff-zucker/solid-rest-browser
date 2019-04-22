@@ -1,6 +1,6 @@
 {
   "name": "solid-rest-browser",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "author": "Jeff Zucker",
   "license": "MIT",
   "description": "treat a browser's localStorage as a mini Solid server",

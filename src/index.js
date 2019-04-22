@@ -154,34 +154,31 @@ function _deleteResource(fn){
 /* 
   CONTAINER HANDLERS
 */
-function _getContainer(pathname){
-    let filenames = Object.keys(localStorage).filter( (k)=>{ 
-        if(k.startsWith(pathname)){return k} 
-    });
-    return new Promise(function(resolve) {
-            let str = `@prefix ldp: <http://www.w3.org/ns/ldp#>.
-
-<>
-    a ldp:BasicContainer, ldp:Container
-` // eos
-            if(filenames.length){
-                str = str + "; ldp:contains\n";
-                filenames.forEach(function(filename) {
-                    if(filename!=pathname)
-                        str = str + `<${filename}>,`
-                });
-                str = str.replace(/,$/,"");
+async function _getContainer(pathname){
+        let filenames = Object.keys(localStorage).filter( (k)=>{ 
+            if(k.startsWith(pathname)){return k} 
+        });
+        let str2 = "";
+        let str = `@prefix ldp: <http://www.w3.org/ns/ldp#>.
+<> a ldp:BasicContainer, ldp:Container` // eos
+        if(filenames.length){
+            str = str + "; ldp:contains\n";
+            for(var i=0;i<filenames.length;i++){
+                let fn = filenames[i];
+                let ftype = await _getObjectType(fn);
+                ftype = (ftype==="Container") ? "BasicContainer; a ldp:Container": ftype
+                str = str + `<${fn}>,\n`
+                str2=str2+`<${fn}> a ldp:${ftype}.\n`
             }
-            str = str+".";
-            return ( resolve(_response(
-                200,
-                str,
-                {'Content-Type':'text/turtle'}
-            )))
-//        });
-    });
+            str = str.replace(/,\n$/,"")
+        }
+        str = str+`.\n`+str2;
+        return ( Promise.resolve(_response(
+            200,
+            str,
+            {'Content-Type':'text/turtle'}
+        )))
 }
-
 
   if( typeof exports != 'undefined' ) {
     if( typeof module != 'undefined' && module.exports ) {
