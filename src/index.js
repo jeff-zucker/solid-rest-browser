@@ -1,7 +1,5 @@
 "use strict";
 
-(function() {
-  var root = this
 /*
   RESPONSE HANDLERS
 */
@@ -28,8 +26,7 @@ function _response (status, body, headers) {
 /*
   REQUEST HANDLER
 */
-let appfetch = async function appfetch (iri, options) {
-
+export async function appfetch (iri, options) {
   options = options || {}
   options.method = (options.method || options.Method || 'GET').toUpperCase()
 
@@ -179,16 +176,3 @@ async function _getContainer(pathname){
             {'Content-Type':'text/turtle'}
         )))
 }
-
-  if( typeof exports != 'undefined' ) {
-    if( typeof module != 'undefined' && module.exports ) {
-      exports = module.exports = appfetch
-    }
-    else exports.appfetch = appfetch
-  } 
-  else {
-    root.appfetch = appfetch // creates window.appfetch
-    return root  // consumed by requrie
-  }
-
-}).call(this)
