@@ -1,12 +1,15 @@
 <!DOCTYPE html><html><head><meta charset="UTF-8" />
+  <script src="./dist/solid-rest-browser.js"></script>
+  <script src="../solid-auth-client/dist-lib/solid-auth-client.bundle.js">
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/rdflib@0.20.1/dist/rdflib.min.js">
   </script>
-  <script src="./src/index.js"></script>
 </head><body>
     <p><b>Testing Local Storage via rdflib.js</b></p><div id="results"></div>
 <script>
 let store   = $rdf.graph()                 
-let fetcher = $rdf.fetcher(store,{fetch:appfetch})
+// let fetcher = $rdf.fetcher(store,{fetch:appfetch})
+let fetcher = $rdf.fetcher(store)
 
 let docRoot     = "app://ls"
 let foldername  = "/test-folder/";

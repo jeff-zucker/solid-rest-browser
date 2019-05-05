@@ -1,20 +1,32 @@
 {
   "name": "solid-rest-browser",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "author": "Jeff Zucker",
   "license": "MIT",
   "description": "treat a browser's localStorage as a mini Solid server",
   "main": "src/index.js",
+  "browser": "dist/browser/solid-rest-browser.bundle.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepublish": "npm run build",
+    "build": "npm run build:window",
+    "build:window": "webpack --config=./webpack/webpack.window.config.js -p"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jeff-zucker/solid-rest-browser.git"
   },
-  "keywords": [],
+  "keywords": [
+    "solid",
+    "linked data",
+    "localStorage"
+  ],
   "bugs": {
     "url": "https://github.com/jeff-zucker/solid-rest-browser/issues"
   },
-  "homepage": "https://github.com/jeff-zucker/solid-rest-browser#readme"
+  "homepage": "https://github.com/jeff-zucker/solid-rest-browser#readme",
+  "devDependencies": {
+    "rimraf": "^2.6.3",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.2"
+  }
 }
